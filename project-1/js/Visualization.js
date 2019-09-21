@@ -22,7 +22,6 @@ export default class {
 		this.createRobot()
 
 		this.animate()
-		alert("ola")
 	}
 
 	createRobot() {
