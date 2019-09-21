@@ -80,8 +80,16 @@ export default class {
 						this.camera.position.y = 0;
 						this.camera.position.z = 20;
 					}
-			});
-			break;
+				});
+				break;
+
+			case 52: //4 wireframe on/off
+        		this.scene.traverse(function (node) {
+            		if (node instanceof THREE.Mesh) {
+                		node.material.wireframe = !node.material.wireframe;
+            		}
+        		});
+				break;
 		}
 	}
 	
