@@ -7,6 +7,7 @@ export default class  {
 	
 	constructor() {
 		this.object = new THREE.Object3D()
+		this.object.position.set(0, 0, 0)
 		
 		//board
 		this.create_board(0, 5, 0)

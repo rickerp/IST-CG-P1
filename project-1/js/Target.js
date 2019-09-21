@@ -7,9 +7,9 @@ export default class  {
 	
 	constructor() {
 		this.object = new THREE.Object3D()
-        
-        this.create_cylinder(30, 10, 0)
-        this.create_torus(30, 23, 0)
+        this.object.position.set(30, 0, 0)
+        this.create_cylinder(0, 10, 0)
+        this.create_torus(0, 23, 0)
 	}
 
 	create_cylinder(x, y, z){
