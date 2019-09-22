@@ -3,11 +3,20 @@ import Target from "./Target.js"
 
 export default class {
 
+	rotationSpeed = 1.2 // per second
+
 	renderer = null
 	robot = null
 	target = null
 	scene = null
 	
+	armRotation = 0
+	upperArmRotation = 0
+
+	keys = {}
+
+	lastTimestamp = 0
+
 	constructor() {
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: false
@@ -16,16 +25,17 @@ export default class {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(this.renderer.domElement);
 	
-		
 		this.createScene()
 		this.createCamera()
 		this.createRobot()
 		this.createTarget()
 
-		window.addEventListener("keydown", this.onKeyDown.bind(this));
-		window.addEventListener("resize", this.onResize.bind(this));
+		window.addEventListener("keydown", this.onKeyDown.bind(this))
+		window.addEventListener("keyup", this.onKeyUp.bind(this))
+
+		window.addEventListener("resize", this.onResize.bind(this))
 	
-		this.animate()
+		this.animate(this.lastTimestamp)
 	}
 
 	createRobot() {
@@ -61,19 +71,36 @@ export default class {
 		this.camera.updateProjectionMatrix();
 	}
 
-	onKeyDown(e) {
+	onKeyUp(e) {
+		this.keys[e.keyCode] = false
 		switch (e.keyCode) {
-			case 81: // q
-				this.robot.rotateUpperArm(Math.PI / 16)
+			case 81:
+			case 87:
+				if (!this.keys[81] && !this.keys[87])
+					this.upperArmRotation = 0
 				break
-			case 87: // w
-				this.robot.rotateUpperArm(-Math.PI / 16)
+			case 65:
+			case 83:
+				if (!this.keys[65] && !this.keys[83])
+					this.armRotation = 0
 				break
-			case 65: // a
-				this.robot.rotateArm(Math.PI / 16)
+		}
+	}
+
+	onKeyDown(e) {
+		this.keys[e.keyCode] = true
+		switch (e.keyCode) {
+			case 81: // q rotate upper arm left
+				this.upperArmRotation = this.rotationSpeed
 				break
-			case 83: // s
-				this.robot.rotateArm(-Math.PI / 16)
+			case 87: // w rotate upper arm right
+				this.upperArmRotation = -this.rotationSpeed
+				break
+			case 65: // a rotate total arm left
+				this.armRotation = this.rotationSpeed 
+				break
+			case 83: // s rotate total arm right
+				this.armRotation = -this.rotationSpeed
 				break
 			case 49: // 1 upper_camer
 				this.setCameraPosition(0, 50, 0)
@@ -113,8 +140,18 @@ export default class {
 		this.renderer.render(this.scene, this.camera)
 	}
 
-	animate() {
+	update(delta) {
+		this.robot.rotateArm(delta * this.armRotation)
+		this.robot.rotateUpperArm(delta * this.upperArmRotation)
+	}
+
+	animate(ts) {
+		let delta = (ts - this.lastTimestamp) / 1000
+		this.lastTimestamp = ts
+
+		this.update(delta)
 		this.render()
-		requestAnimationFrame(() => this.animate())
+
+		requestAnimationFrame(this.animate.bind(this))
 	}
 }
