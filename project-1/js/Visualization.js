@@ -55,40 +55,32 @@ export default class {
 
 	onKeyDown(e) { 
 		switch (e.keyCode) {
-			case 49: //1 upper_camera
-				this.scene.traverse(function (node) {
-					if (node instanceof THREE.PerspectiveCamera) {
-						this.camera.position.x = 0;
-						this.camera.position.y = 50;
-						this.camera.position.z = 0;
-					}
-				});
+			case 49: //1 upper_camer
+				this.changeCamera(0, 50, 0)
 				break;
 			case 50: //2 side_camera
-				this.scene.traverse(function (node) {
-					if (node instanceof THREE.PerspectiveCamera) {
-						this.camera.position.x = 0;
-						this.camera.position.y = 50;
-						this.camera.position.z = 20;
-					}
-				});
+				this.changeCamera(0, 20 ,50)
 				break;
-			case 51: //3 front_camera
-				this.scene.traverse(function (node) {
-					if (node instanceof THREE.PerspectiveCamera) {
-						this.camera.position.x = 50;
-						this.camera.position.y = 0;
-						this.camera.position.z = 20;
-					}
-				});
+			case 51: //3 front_camera	
+				this.changeCamera(50, 20, 0)
 				break;
 			case 52: //4 wireframe on/off
-				this.robot.material.wireframe = !this.robot.material.wireframe
-				this.target.material.wireframe = !this.target.material.wireframe
+				this.changeWireframe()
 				break;
 		}
 	}
 	
+	changeCamera(x, y, z){	
+		this.camera.position.x = x
+		this.camera.position.y = y
+		this.camera.position.z = z
+		this.camera.lookAt(this.scene.position)
+	}
+
+	changeWireframe(){
+		this.robot.material.wireframe = !this.robot.material.wireframe
+		this.target.material.wireframe = !this.target.material.wireframe
+	}
 
 	createScene() {
 		this.scene = new THREE.Scene()
