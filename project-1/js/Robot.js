@@ -1,3 +1,8 @@
+import Arm from "./Arm.js"
+
+const minmax = (min, max, value) =>
+	Math.max(min, Math.min(max, value))
+
 export default class  {
 
 	object = null
@@ -5,25 +10,45 @@ export default class  {
 	position = null
 	top = null
 	
+	arm = null
+
 	constructor() {
 		this.object = new THREE.Object3D()
-		this.object.position.set(0, 0, 0)
 		this.material = new THREE.MeshBasicMaterial({
 			color: 0x00ff00,
 			wireframe: true
 		})
-		//board
+
 		this.createBoard(0, 5, 0)
 
-		//wheels
 		this.createWheel(-18, 2, -8)
 		this.createWheel(-18, 2, 8)
 		this.createWheel(18, 2, 8)
 		this.createWheel(18, 2, -8)
 
-		//lower_articulation
 		this.createLowerArticulation(0,6,0)
 
+		this.createArm()
+	}
+
+	rotateUpperArm(angle) {
+		this.arm.upperArm.rotateZ(angle)
+		this.arm.upperArm.rotation.z = minmax(
+			-Math.PI*3/4, Math.PI*3/4,
+			this.arm.upperArm.rotation.z)
+	}
+
+	rotateArm(angle) {
+		this.arm.object.rotateZ(angle)
+		this.arm.object.rotation.z = minmax(
+			-Math.PI/2, Math.PI/2,
+			this.arm.object.rotation.z)
+	}	
+	
+	createArm() {
+		this.arm = new Arm(this.material)
+		this.arm.object.position.y = 8
+		this.object.add(this.arm.object)
 	}
 
 	createBoard(x, y, z){

@@ -39,7 +39,13 @@ export default class {
 	}
 
 	createCamera() {
-		this.camera = new THREE.OrthographicCamera(window.innerWidth / -24, window.innerWidth / 24, window.innerHeight / 24, window.innerHeight / -24, -200, 500);
+		this.camera = new THREE.OrthographicCamera(
+			window.innerWidth / -18,
+			window.innerWidth / 18,
+			window.innerHeight / 18,
+			window.innerHeight / -18,
+			-200,
+			500);
 		this.camera.position.x = 0;
 		this.camera.position.y = 0;
 		this.camera.position.z = 50;
@@ -48,22 +54,39 @@ export default class {
 
 	onResize() {
 		this.renderer.setSize(window.innerWidth, window.innerHeight)
+		this.camera.left = - window.innerWidth / 18
+		this.camera.right = window.innerWidth / 18
+		this.camera.top = window.innerHeight / 18
+		this.camera.bottom = - window.innerHeight / 18
+		this.camera.updateProjectionMatrix();
 	}
 
-	onKeyDown(e) { 
+	onKeyDown(e) {
 		switch (e.keyCode) {
-			case 49: //1 upper_camer
+			case 81: // q
+				this.robot.rotateUpperArm(Math.PI / 16)
+				break
+			case 87: // w
+				this.robot.rotateUpperArm(-Math.PI / 16)
+				break
+			case 65: // a
+				this.robot.rotateArm(Math.PI / 16)
+				break
+			case 83: // s
+				this.robot.rotateArm(-Math.PI / 16)
+				break
+			case 49: // 1 upper_camer
 				this.setCameraPosition(0, 50, 0)
-				break;
-			case 50: //2 side_camera
+				break
+			case 50: // 2 side_camera
 				this.setCameraPosition(0, 0 ,50)
-				break;
-			case 51: //3 front_camera	
+				break
+			case 51: // 3 front_camera	
 				this.setCameraPosition(50, 0, 0)
-				break;
-			case 52: //4 wireframe on/off
+				break
+			case 52: // 4 wireframe on/off
 				this.toggleWireframe()
-				break;
+				break
 		}
 	}
 	
