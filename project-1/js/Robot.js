@@ -29,20 +29,24 @@ export default class  {
 		this.createLowerArticulation(0,6,0)
 
 		this.createArm()
+
+		this.rotateUpperArm(-Math.PI / 2)
 	}
 
 	rotateUpperArm(angle) {
-		this.arm.upperArm.rotateZ(angle)
-		this.arm.upperArm.rotation.z = minmax(
-			-Math.PI*3/4, Math.PI*3/4,
-			this.arm.upperArm.rotation.z)
+		let rotationZ = new THREE.Quaternion()
+		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
+		this.arm.upperArm.applyQuaternion(rotationZ)
 	}
 
-	rotateArm(angle) {
-		this.arm.object.rotateZ(angle)
-		this.arm.object.rotation.z = minmax(
-			-Math.PI/2, Math.PI/2,
-			this.arm.object.rotation.z)
+	rotateArm(angle, theta) {
+		let rotationZ = new THREE.Quaternion()
+		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
+		this.arm.object.applyQuaternion(rotationZ)
+
+		let rotationZ = new THREE.Quaternion()
+		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
+		this.arm.object.applyQuaternion(rotationZ)
 	}	
 	
 	createArm() {

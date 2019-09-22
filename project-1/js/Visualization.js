@@ -14,6 +14,7 @@ export default class {
 	
 	armRotation = 0
 	upperArmRotation = 0
+	sideRotation = 0
 
 	moveVector = new THREE.Vector3(0, 0, 0)
 
@@ -81,6 +82,11 @@ export default class {
 			case 81:
 			case 87:
 				if (!this.keys[81] && !this.keys[87])
+					this.sideRotation = 0
+				break
+			case 90:
+			case 88:
+				if (!this.keys[90] && !this.keys[88])
 					this.upperArmRotation = 0
 				break
 			case 65:
@@ -105,6 +111,12 @@ export default class {
 		console.log(e.keyCode)
 		this.keys[e.keyCode] = true
 		switch (e.keyCode) {
+			case 81: // q left side rotation
+				this.sideRotation = -this.rotationSpeed
+				break
+			case 87: // w right side rotation
+				this.sideRotation = this.rotationSpeed
+				break
 			case 37: // left arrow
 				this.moveVector.x = -1
 				break
@@ -117,10 +129,10 @@ export default class {
 			case 40: // bottom arrow
 				this.moveVector.z = 1
 				break
-			case 81: // q rotate upper arm left
+			case 90: // q rotate upper arm left
 				this.upperArmRotation = this.rotationSpeed
 				break
-			case 87: // w rotate upper arm right
+			case 88: // w rotate upper arm right
 				this.upperArmRotation = -this.rotationSpeed
 				break
 			case 65: // a rotate total arm left
@@ -168,9 +180,8 @@ export default class {
 	}
 
 	update(delta) {
-		this.robot.rotateArm(delta * this.armRotation)
+		this.robot.rotateArm(delta * this.armRotation, delta * this.sideRotation)
 		this.robot.rotateUpperArm(delta * this.upperArmRotation)
-		
 
 		this.robot.object.translateOnAxis(this.moveVector, delta * this.movingSpeed)
 	}
