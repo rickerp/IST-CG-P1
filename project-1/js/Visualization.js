@@ -3,7 +3,9 @@ import Target from "./Target.js"
 
 export default class {
 
-	rotationSpeed = 1.2 // per second
+	// per second
+	rotationSpeed = 1.2
+	movingSpeed = 10
 
 	renderer = null
 	robot = null
@@ -12,6 +14,8 @@ export default class {
 	
 	armRotation = 0
 	upperArmRotation = 0
+
+	moveVector = new THREE.Vector3(0, 0, 0)
 
 	keys = {}
 
@@ -84,12 +88,35 @@ export default class {
 				if (!this.keys[65] && !this.keys[83])
 					this.armRotation = 0
 				break
+			case 37:
+			case 39:
+				if (!this.keys[37] && !this.keys[39])
+					this.moveVector.x = 0
+				break
+			case 38:
+			case 40:
+				if (!this.keys[40] && !this.keys[38])
+					this.moveVector.z = 0
+				break
 		}
 	}
 
 	onKeyDown(e) {
+		console.log(e.keyCode)
 		this.keys[e.keyCode] = true
 		switch (e.keyCode) {
+			case 37: // left arrow
+				this.moveVector.x = -1
+				break
+			case 38: // up arrow
+				this.moveVector.z = -1
+				break
+			case 39: // right arrow
+				this.moveVector.x = 1
+				break
+			case 40: // bottom arrow
+				this.moveVector.z = 1
+				break
 			case 81: // q rotate upper arm left
 				this.upperArmRotation = this.rotationSpeed
 				break
@@ -143,6 +170,9 @@ export default class {
 	update(delta) {
 		this.robot.rotateArm(delta * this.armRotation)
 		this.robot.rotateUpperArm(delta * this.upperArmRotation)
+		
+
+		this.robot.object.translateOnAxis(this.moveVector, delta * this.movingSpeed)
 	}
 
 	animate(ts) {
