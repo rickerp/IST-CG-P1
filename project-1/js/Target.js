@@ -25,7 +25,7 @@ export default class  {
 	}
 	
 	createTorus(x, y, z){
-		let geometry = new THREE.TorusGeometry( 2.25, 0.75, 16, 100 )
+		let geometry = new THREE.TorusGeometry( 2.25, 0.75, 4, 16 )
 		let mesh = new THREE.Mesh(geometry, this.material)
 		mesh.position.set(x, y, z)
 		this.object.add(mesh)
