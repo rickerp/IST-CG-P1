@@ -39,12 +39,9 @@ export default class {
 	}
 
 	createCamera() {
-		this.camera = new THREE.PerspectiveCamera(70,
-			window.innerWidth / window.innerHeight,
-			1,
-			1000);
+		this.camera = new THREE.OrthographicCamera(window.innerWidth / -24, window.innerWidth / 24, window.innerHeight / 24, window.innerHeight / -24, -200, 500);
 		this.camera.position.x = 0;
-		this.camera.position.y = 20;
+		this.camera.position.y = 0;
 		this.camera.position.z = 50;
 		this.camera.lookAt(this.scene.position);
 	}
@@ -59,10 +56,10 @@ export default class {
 				this.setCameraPosition(0, 50, 0)
 				break;
 			case 50: //2 side_camera
-				this.setCameraPosition(0, 20 ,50)
+				this.setCameraPosition(0, 0 ,50)
 				break;
 			case 51: //3 front_camera	
-				this.setCameraPosition(50, 20, 0)
+				this.setCameraPosition(50, 0, 0)
 				break;
 			case 52: //4 wireframe on/off
 				this.toggleWireframe()
