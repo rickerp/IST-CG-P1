@@ -56,13 +56,13 @@ export default class {
 	onKeyDown(e) { 
 		switch (e.keyCode) {
 			case 49: //1 upper_camer
-				this.changeCamera(0, 50, 0)
+				this.setCameraPosition(0, 50, 0)
 				break;
 			case 50: //2 side_camera
-				this.changeCamera(0, 20 ,50)
+				this.setCameraPosition(0, 20 ,50)
 				break;
 			case 51: //3 front_camera	
-				this.changeCamera(50, 20, 0)
+				this.setCameraPosition(50, 20, 0)
 				break;
 			case 52: //4 wireframe on/off
 				this.toggleWireframe()
@@ -70,7 +70,7 @@ export default class {
 		}
 	}
 	
-	changeCamera(x, y, z){	
+	setCameraPosition(x, y, z){	
 		this.camera.position.x = x
 		this.camera.position.y = y
 		this.camera.position.z = z
