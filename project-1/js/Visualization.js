@@ -65,7 +65,7 @@ export default class {
 				this.changeCamera(50, 20, 0)
 				break;
 			case 52: //4 wireframe on/off
-				this.changeWireframe()
+				this.toggleWireframe()
 				break;
 		}
 	}
@@ -77,7 +77,7 @@ export default class {
 		this.camera.lookAt(this.scene.position)
 	}
 
-	changeWireframe(){
+	toggleWireframe(){
 		this.robot.material.wireframe = !this.robot.material.wireframe
 		this.target.material.wireframe = !this.target.material.wireframe
 	}
