@@ -83,12 +83,8 @@ export default class {
 				});
 				break;
 			case 52: //4 wireframe on/off
-        		this.scene.traverse(function (node) {
-            		if (node instanceof THREE.Mesh) {	
-						console.log(node.material.wireframe)
-                		node.material.wireframe = !node.material.wireframe;
-            		}
-        		});
+				this.robot.material.wireframe = !this.robot.material.wireframe
+				this.target.material.wireframe = !this.target.material.wireframe
 				break;
 		}
 	}
