@@ -7,7 +7,7 @@ export default class {
 	robot = null
 	target = null
 	scene = null
-
+	
 	constructor() {
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: false
@@ -22,8 +22,8 @@ export default class {
 		this.createRobot()
 		this.createTarget()
 
-		window.addEventListener("keydown", this.onKeyDown);
-		window.addEventListener("resize", this.onResize);
+		window.addEventListener("keydown", this.onKeyDown.bind(this));
+		window.addEventListener("resize", this.onResize.bind(this));
 	
 		this.animate()
 	}
@@ -53,7 +53,7 @@ export default class {
 		this.renderer.setSize(window.innerWidth, window.innerHeight)
 	}
 
-	onKeyDown(e) { //FIX this.scene -> undefined 
+	onKeyDown(e) { 
 		switch (e.keyCode) {
 			case 49: //1 upper_camera
 				this.scene.traverse(function (node) {
@@ -82,10 +82,10 @@ export default class {
 					}
 				});
 				break;
-
 			case 52: //4 wireframe on/off
         		this.scene.traverse(function (node) {
-            		if (node instanceof THREE.Mesh) {
+            		if (node instanceof THREE.Mesh) {	
+						console.log(node.material.wireframe)
                 		node.material.wireframe = !node.material.wireframe;
             		}
         		});
