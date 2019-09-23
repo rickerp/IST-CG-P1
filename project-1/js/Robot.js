@@ -1,15 +1,9 @@
 import Arm from "./Arm.js"
 
-const minmax = (min, max, value) =>
-	Math.max(min, Math.min(max, value))
-
 export default class  {
 
 	object = null
 	material = null
-	position = null
-	top = null
-	
 	arm = null
 
 	constructor() {
@@ -55,21 +49,21 @@ export default class  {
 		this.object.add(this.arm.object)
 	}
 
-	createBoard(x, y, z){
+	createBoard(x, y, z) {
 		let geometry = new THREE.CubeGeometry(40, 2, 20)
 		let mesh = new THREE.Mesh(geometry, this.material)
 		mesh.position.set(x, y, z)
 		this.object.add(mesh)
 	}
 	
-	createWheel(x, y, z){
+	createWheel(x, y, z) {
 		let geometry = new THREE.SphereGeometry(2, 8, 8)
 		let mesh = new THREE.Mesh(geometry, this.material)
 		mesh.position.set(x, y, z)
 		this.object.add(mesh)
 	}
 
-	createLowerArticulation(x, y, z){
+	createLowerArticulation(x, y, z) {
 		let geometry = new THREE.SphereGeometry(4, 8, 8, 0, Math.PI*2, 0, Math.PI/2)
 		let mesh = new THREE.Mesh(geometry, this.material)
 		mesh.position.set(x, y, z)
