@@ -44,9 +44,9 @@ export default class  {
 		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
 		this.arm.object.applyQuaternion(rotationZ)
 
-		let rotationZ = new THREE.Quaternion()
-		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
-		this.arm.object.applyQuaternion(rotationZ)
+		let rotationY = new THREE.Quaternion()
+		rotationY.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
+		this.arm.object.applyQuaternion(rotationY)
 	}	
 	
 	createArm() {
