@@ -28,19 +28,24 @@ export default class  {
 	}
 
 	rotateUpperArm(angle) {
-		let rotationZ = new THREE.Quaternion()
-		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
-		this.arm.upperArm.applyQuaternion(rotationZ)
+		// let rotationZ = new THREE.Quaternion()
+		// rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
+		// this.arm.upperArm.applyQuaternion(rotationZ)
+	
+		this.arm.upperArm.rotateZ(angle)
 	}
 
 	rotateArm(angle, theta) {
-		let rotationZ = new THREE.Quaternion()
-		rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
-		this.arm.object.applyQuaternion(rotationZ)
+		// let rotationZ = new THREE.Quaternion()
+		// rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
+		// this.arm.object.applyQuaternion(rotationZ)
 
-		let rotationY = new THREE.Quaternion()
-		rotationY.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
-		this.arm.object.applyQuaternion(rotationY)
+		// let rotationY = new THREE.Quaternion()
+		// rotationY.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
+		// this.arm.object.applyQuaternion(rotationY)
+
+		this.arm.object.rotateZ(angle)
+		this.arm.object.rotateY(theta)
 	}	
 	
 	createArm() {
