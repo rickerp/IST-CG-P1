@@ -1,38 +1,37 @@
-import Arm from "./Arm.js"
+import Arm from "./Arm.js";
 
-export default class  {
-
-	object = null
-	material = null
-	arm = null
+export default class {
+	object = null;
+	material = null;
+	arm = null;
 
 	constructor() {
-		this.object = new THREE.Object3D()
+		this.object = new THREE.Object3D();
 		this.material = new THREE.MeshBasicMaterial({
 			color: 0x00ff00,
 			wireframe: true
-		})
+		});
 
-		this.createBoard(0, 5, 0)
+		this.createBoard(0, 5, 0);
 
-		this.createWheel(-18, 2, -8)
-		this.createWheel(-18, 2, 8)
-		this.createWheel(18, 2, 8)
-		this.createWheel(18, 2, -8)
+		this.createWheel(-18, 2, -8);
+		this.createWheel(-18, 2, 8);
+		this.createWheel(18, 2, 8);
+		this.createWheel(18, 2, -8);
 
-		this.createLowerArticulation(0,6,0)
+		this.createLowerArticulation(0, 6, 0);
 
-		this.createArm()
+		this.createArm();
 
-		this.rotateUpperArm(-Math.PI / 2)
+		this.rotateUpperArm(-Math.PI / 2);
 	}
 
 	rotateUpperArm(angle) {
 		// let rotationZ = new THREE.Quaternion()
 		// rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
 		// this.arm.upperArm.applyQuaternion(rotationZ)
-	
-		this.arm.upperArm.rotateZ(angle)
+
+		this.arm.upperArm.rotateZ(angle);
 	}
 
 	rotateArm(angle, theta) {
@@ -43,36 +42,62 @@ export default class  {
 		// let rotationY = new THREE.Quaternion()
 		// rotationY.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
 		// this.arm.object.applyQuaternion(rotationY)
-		this.axis = new THREE.Vector3(0, 1, 0)
-		this.arm.object.rotateZ(angle)
-		this.arm.object.rotateOnWorldAxis(this.axis ,theta)
-	}	
-	
+		this.axis = new THREE.Vector3(0, 1, 0);
+		this.arm.object.rotateZ(angle);
+		this.arm.object.rotateOnWorldAxis(this.axis, theta);
+	}
+
 	createArm() {
-		this.arm = new Arm(this.material)
-		this.arm.object.position.y = 8
-		this.object.add(this.arm.object)
+		this.arm = new Arm(this.material);
+		this.arm.object.position.y = 8;
+		this.object.add(this.arm.object);
 	}
 
 	createBoard(x, y, z) {
-		let geometry = new THREE.CubeGeometry(40, 2, 20)
-		let mesh = new THREE.Mesh(geometry, this.material)
-		mesh.position.set(x, y, z)
-		this.object.add(mesh)
+		let geometry = new THREE.CubeGeometry(40, 2, 20);
+		let mesh = new THREE.Mesh(geometry, this.material);
+		mesh.position.set(x, y, z);
+		this.object.add(mesh);
 	}
-	
+
 	createWheel(x, y, z) {
-		let geometry = new THREE.SphereGeometry(2, 8, 8)
-		let mesh = new THREE.Mesh(geometry, this.material)
-		mesh.position.set(x, y, z)
-		this.object.add(mesh)
+		let geometry = new THREE.SphereGeometry(2, 8, 8);
+		let mesh = new THREE.Mesh(geometry, this.material);
+		mesh.position.set(x, y, z);
+		this.object.add(mesh);
 	}
 
 	createLowerArticulation(x, y, z) {
-		let geometry = new THREE.SphereGeometry(4, 8, 8, 0, Math.PI*2, 0, Math.PI/2)
-		let mesh = new THREE.Mesh(geometry, this.material)
-		mesh.position.set(x, y, z)
-		this.object.add(mesh)
+		let geometry = new THREE.SphereGeometry(
+			4,
+			8,
+			8,
+			0,
+			Math.PI * 2,
+			0,
+			Math.PI / 2
+		);
+		let mesh = new THREE.Mesh(geometry, this.material);
+		mesh.position.set(x, y, z);
+		this.object.add(mesh);
 	}
-	
+
+	update(keys, delta) {
+		var moveVector = new THREE.Vector3(0, 0, 0);
+		if (!((keys.left && keys.right) || (keys.up && keys.down))) {
+			if (keys.left) {
+				moveVector.x = -1;
+			}
+			if (keys.up) {
+				moveVector.z = -1;
+			}
+			if (keys.right) {
+				moveVector.x = 1;
+			}
+			if (keys.down) {
+				moveVector.z = 1;
+			}
+		}
+		this.object.translateOnAxis(moveVector, 10 * delta);
+	}
 }
