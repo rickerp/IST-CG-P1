@@ -27,21 +27,10 @@ export default class {
 	}
 
 	rotateUpperArm(angle) {
-		// let rotationZ = new THREE.Quaternion()
-		// rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
-		// this.arm.upperArm.applyQuaternion(rotationZ)
-
 		this.arm.upperArm.rotateZ(angle);
 	}
 
 	rotateArm(angle, theta) {
-		// let rotationZ = new THREE.Quaternion()
-		// rotationZ.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle)
-		// this.arm.object.applyQuaternion(rotationZ)
-
-		// let rotationY = new THREE.Quaternion()
-		// rotationY.setFromAxisAngle(new THREE.Vector3(0, 1, 0), theta)
-		// this.arm.object.applyQuaternion(rotationY)
 		this.axis = new THREE.Vector3(0, 1, 0);
 		this.arm.object.rotateZ(angle);
 		this.arm.object.rotateOnWorldAxis(this.axis, theta);
@@ -83,21 +72,19 @@ export default class {
 	}
 
 	update(keys, delta) {
-		var moveVector = new THREE.Vector3(0, 0, 0);
 		if (!((keys.left && keys.right) || (keys.up && keys.down))) {
 			if (keys.left) {
-				moveVector.x = -1;
+				this.object.position.x -= delta
 			}
 			if (keys.up) {
-				moveVector.z = -1;
+				this.object.position.z -= delta
 			}
 			if (keys.right) {
-				moveVector.x = 1;
+				this.object.position.x += delta
 			}
 			if (keys.down) {
-				moveVector.z = 1;
+				this.object.position.z += delta
 			}
 		}
-		this.object.translateOnAxis(moveVector, 10 * delta);
 	}
 }

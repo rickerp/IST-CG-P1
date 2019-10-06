@@ -3,8 +3,8 @@ import Target from "./Target.js";
 
 export default class {
 	// per second
-	rotationSpeed = 1.2;
-	movingSpeed = 10;
+	rotationSpeed = 1.5;
+	movingSpeed = 20;
 
 	renderer = null;
 	robot = null;
@@ -178,7 +178,7 @@ export default class {
 		);
 		this.robot.rotateUpperArm(delta * this.upperArmRotation);
 
-		this.robot.update(this.keys, delta);
+		this.robot.update(this.keys, delta * this.movingSpeed);
 	}
 
 	animate(ts) {
