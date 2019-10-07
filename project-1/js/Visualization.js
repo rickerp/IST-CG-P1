@@ -4,8 +4,7 @@ import Target from "./Target.js";
 export default class {
     // per second
     rotationSpeed = 1.5;
-    movingSpeed = 20;
-
+    movingSpeed = 25;
     renderer = null;
     robot = null;
     target = null;
@@ -80,7 +79,7 @@ export default class {
     }
 
     onKeyUp(e) {
-        this.keys[e.keyCode] = false;
+        this.keys[e.keyCode] = false; // keys left, up, right and down handled here
         switch (e.keyCode) {
             case 81:
             case 87:
@@ -94,41 +93,17 @@ export default class {
             case 83:
                 if (!this.keys[65] && !this.keys[83]) this.armRotation = 0;
                 break;
-            case 37:
-                this.keys.left = 0;
-                break;
-            case 38:
-                this.keys.up = 0;
-                break;
-            case 39:
-                this.keys.right = 0;
-                break;
-            case 40:
-                this.keys.down = 0;
-                break;
         }
     }
 
     onKeyDown(e) {
-        this.keys[e.keyCode] = true;
+        this.keys[e.keyCode] = true; // keys left, up, right and down handled here
         switch (e.keyCode) {
             case 81: // q left side rotation
                 this.sideRotation = -this.rotationSpeed;
                 break;
             case 87: // w right side rotation
                 this.sideRotation = this.rotationSpeed;
-                break;
-            case 37: // left arrow
-                this.keys.left = 1;
-                break;
-            case 38: // up arrow
-                this.keys.up = 1;
-                break;
-            case 39: // right arrow
-                this.keys.right = 1;
-                break;
-            case 40: // bottom arrow
-                this.keys.down = 1;
                 break;
             case 90: // q rotate upper arm left
                 this.upperArmRotation = this.rotationSpeed;
@@ -176,6 +151,37 @@ export default class {
         this.renderer.render(this.scene, this.camera);
     }
 
+    updateRobot(distance) {
+        // keys: {left:37, up:38, right:39, down:40}
+        if (
+            !(
+                (this.keys[37] && this.keys[39]) ||
+                (this.keys[38] && this.keys[40])
+            )
+        ) {
+            var nAxis = 0;
+            for (var k = 37; k <= 40; k++) {
+                nAxis += this.keys[k];
+            }
+            if (nAxis >= 2) {
+                distance = distance * Math.cos(Math.PI / 4);
+            }
+
+            if (this.keys[37]) {
+                this.robot.object.position.x -= distance;
+            }
+            if (this.keys[38]) {
+                this.robot.object.position.z -= distance;
+            }
+            if (this.keys[39]) {
+                this.robot.object.position.x += distance;
+            }
+            if (this.keys[40]) {
+                this.robot.object.position.z += distance;
+            }
+        }
+    }
+
     update(delta) {
         this.robot.rotateArm(
             delta * this.armRotation,
@@ -183,7 +189,7 @@ export default class {
         );
         this.robot.rotateUpperArm(delta * this.upperArmRotation);
 
-        this.robot.update(this.keys, delta * this.movingSpeed);
+        this.updateRobot(delta * this.movingSpeed);
     }
 
     animate(ts) {
