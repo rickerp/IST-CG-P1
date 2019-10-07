@@ -14,7 +14,7 @@ export default class {
     upperArmRotation = 0;
     sideRotation = 0;
 
-    keys = {};
+    keys = { 37: false, 38: false, 39: false, 40: false };
     cameras = [];
 
     lastTimestamp = 0;
@@ -98,6 +98,7 @@ export default class {
 
     onKeyDown(e) {
         this.keys[e.keyCode] = true; // keys left, up, right and down handled here
+        console.log("keys: ", this.keys);
         switch (e.keyCode) {
             case 81: // q left side rotation
                 this.sideRotation = -this.rotationSpeed;
@@ -153,16 +154,18 @@ export default class {
 
     updateRobot(distance) {
         // keys: {left:37, up:38, right:39, down:40}
+        var nAxis = 0;
+        for (var k = 37; k <= 40; k++) {
+            nAxis += this.keys[k];
+        }
+
         if (
             !(
                 (this.keys[37] && this.keys[39]) ||
                 (this.keys[38] && this.keys[40])
-            )
+            ) &&
+            nAxis >= 1
         ) {
-            var nAxis = 0;
-            for (var k = 37; k <= 40; k++) {
-                nAxis += this.keys[k];
-            }
             if (nAxis >= 2) {
                 distance = distance * Math.cos(Math.PI / 4);
             }
